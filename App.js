@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 
 export default function App() {
   const [people, setPeople] = useState([
@@ -11,16 +11,37 @@ export default function App() {
     { name: 'toad', key: '6'},
     { name: 'bowser', key: '7'},
   ]);
-
+//bgfhg
   return (
     <View style={styles.container}>
-      <ScrollView>
-        { people.map((item) => (
-            <View key={item.key}>
+      <FlatList 
+        data={people}
+        renderItem={({ item }) => (
+          <Text style={styles.item}>{item.name}</Text>
+        )}
+      />
+
+      {/**Si por ejemplo, cada elemento del array no tiene un "key" y en su
+       * lugar tiene otra propiedad que pueda usarse como "key", por ejemplo
+       * un "id":
+       * { name: 'shaun', id: '1'},
+       * { name: 'yoshi', id: '2'},
+       * { name: 'mario', id: '3'},
+       * 
+       * Entoces puede extraerse esa "id" con la propiedad keyExtractor del
+       * FlatList:
+       * <FlatList 
+            keyExtractor={(item) => item.id}
+            data={people}
+            renderItem={({ item }) => (
               <Text style={styles.item}>{item.name}</Text>
-            </View>
-          ))}
-      </ScrollView>
+            )}
+          />
+
+       * Por otro lado puede especificarse el numero de columnas que queremos
+       * con FlatList usando la propiedad numColumns. Por ejemplo para dos 
+       * columnas usamos numColumns={2}    
+      */}
     </View>
   );
 }
