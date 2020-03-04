@@ -1,47 +1,35 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [people, setPeople] = useState([
-    { name: 'shaun', key: '1'},
-    { name: 'yoshi', key: '2'},
-    { name: 'mario', key: '3'},
-    { name: 'luigi', key: '4'},
-    { name: 'peach', key: '5'},
-    { name: 'toad', key: '6'},
-    { name: 'bowser', key: '7'},
+    { name: 'shaun', id: '1'},
+    { name: 'yoshi', id: '2'},
+    { name: 'mario', id: '3'},
+    { name: 'luigi', id: '4'},
+    { name: 'peach', id: '5'},
+    { name: 'toad', id: '6'},
+    { name: 'bowser', id: '7'},
   ]);
-//bgfhg
+
+  const pressHandler = (id) => {
+    console.log(id);
+    setPeople((prevPeople) => {
+      return prevPeople.filter(person => person.id != id);
+    })
+  }
+
   return (
     <View style={styles.container}>
       <FlatList 
         data={people}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Text style={styles.item}>{item.name}</Text>
+          <TouchableOpacity onPress={() => pressHandler(item.id)}> 
+            <Text style={styles.item}>{item.name}</Text>
+          </TouchableOpacity> 
         )}
       />
-
-      {/**Si por ejemplo, cada elemento del array no tiene un "key" y en su
-       * lugar tiene otra propiedad que pueda usarse como "key", por ejemplo
-       * un "id":
-       * { name: 'shaun', id: '1'},
-       * { name: 'yoshi', id: '2'},
-       * { name: 'mario', id: '3'},
-       * 
-       * Entoces puede extraerse esa "id" con la propiedad keyExtractor del
-       * FlatList:
-       * <FlatList 
-            keyExtractor={(item) => item.id}
-            data={people}
-            renderItem={({ item }) => (
-              <Text style={styles.item}>{item.name}</Text>
-            )}
-          />
-
-       * Por otro lado puede especificarse el numero de columnas que queremos
-       * con FlatList usando la propiedad numColumns. Por ejemplo para dos 
-       * columnas usamos numColumns={2}    
-      */}
     </View>
   );
 }
